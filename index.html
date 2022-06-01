@@ -5,11 +5,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./Assets/css/style.css">
+    <link rel="stylesheet" href="./Assets/font/fontawesome-free-6.1.1-web/css/all.min.css">
+    <title>MusicPlay</title>
 </head>
 
 <body>
+    <div class="container">
+        <div class="music_box">
+            <div class="header">
+                <div class="name_music">
+                    <h2 class="nameSong">Now Playing</h2>
+                    <p class="singer">Trung troc</p>
+                </div>
+                <div class="cd">
+                    <div class="music_thumb" style=" background-image: url('http://surl.li/cciyw')">
 
+                    </div>
+                </div>
+
+            </div>
+            <!-- Control -->
+            <div class="tool_bar">
+                <div class="item btn-play-only">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </div>
+                <div class="item btn-back">
+                    <i class="fa-solid fa-backward-step"></i>
+                </div>
+                <div class="item btn-play">
+                    <i class="fa-solid fa-play"></i>
+                    <i class="fa-solid fa-pause"></i>
+                </div>
+                <div class="item btn-next">
+                    <i class="fa-solid fa-forward-step"></i>
+                </div>
+                <div class="item btn-random">
+                    <i class="fa-solid fa-shuffle"></i>
+                </div>
+            </div>
+
+            <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+            <audio id="audio" src="./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3"></audio>
+        </div>
+
+        <!-- List -->
+        <div class="list_music">
+
+            <div class="song">
+                <div class="image_song"
+                    style=" background-image: url('http://surl.li/ccjkm'); background-size: cover;background-repeat: no-repeat;">
+
+                </div>
+                <div class="info_song">
+                    <h1 class="name_song">Name Song</h1>
+                    <p class="singer">Singer</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="./control.js"></script>
 </body>
 
 </html>

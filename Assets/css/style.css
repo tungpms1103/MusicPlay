@@ -1,0 +1,135 @@
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+     user-select: none;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    min-height: 700px;
+    width: 420px;
+    background-color: antiquewhite;
+    margin: auto;
+    position: relative;
+
+}
+.container > .music_box{
+    display: flex;
+    min-height: 150px;
+    width: 420px;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    background-color: aliceblue;
+}
+/* Header */
+.music_box > .header{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0 auto;
+    text-align: center;
+}
+.nameSong{
+    color: blueviolet;
+    margin: 5px;
+}
+.header > .name_music{
+    margin: 15px;
+}
+
+.cd{
+    width: 250px;
+    display: flex;
+    margin: auto;
+}
+.music_thumb{
+    width: 100%;
+    padding-top: 100%;  
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-clip: border-box;
+    border-radius: 50%;
+    /* border: 1px solid red; */
+    transition: all 2s ease;
+}
+
+/* .music_thumb:hover{
+    border: 10px solid green;
+} */
+
+
+/* ToolBar */
+.tool_bar{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+.tool_bar >.item{
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+}
+.tool_bar >.item:hover{
+    background-color: red;
+}
+.tool_bar >.item:active{
+    opacity: 0.8;
+}
+
+.music_box .fa-pause{
+    display: none;
+}
+
+.playing .fa-pause{
+    display: inline-block;
+}
+.playing .fa-play{
+    display: none;
+}
+/* List */
+
+.list_music{
+    margin-top: 460px;
+    padding: 12px;
+    /* overflow: scroll; */
+}
+
+.song{
+    display: flex;
+    align-items: center;
+    width: 400px;
+    padding: 10px;
+    background-color: whitesmoke;
+    background-clip: content-box;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+.song:hover{
+    opacity: 0.8;
+}
+.song > .image_song{
+    width: 70px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 20px;
+}
+.info_song{
+    width: 100%;
+    text-align: center;
+}
+.info_song > h1,p{
+    color: brown;
+    font-size: 20px;
+}
