@@ -6,14 +6,21 @@ const nameSong = $('.name_music .nameSong');
 const singer = $('.name_music .singer');
 const thumb_song = $('.cd .music_thumb');
 const music_box = $('.music_box');
+const progress = $('.progress');
+
+// console.log(progress);
 
 const btn_play_pause = $('.btn-play');
+const btn_back_song = $('.btn-back');
+const btn_next = $('.btn-next');
+const btn_random = $('.btn-random');
 
-console.log(nameSong, singer, thumb_song,btn_play_pause)
+// console.log(nameSong, singer, thumb_song,btn_play_pause)
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
+    isPlayRandom: false,
     songs: [
         {
             name:'Cơn mưa tháng 5',
@@ -64,6 +71,7 @@ const app = {
             image:'./Assets/image/motNhanhMai.jpg'
         }
     ],
+    // Dinh nghia properties
     defineProperties: function(){
         Object.defineProperty(app,'currentSong', {
             get: function(){
@@ -71,6 +79,8 @@ const app = {
             }
         })
     },
+
+    // render playlist
     render: function(){
         var htmls = this.songs.map(function(song){
             return `
@@ -92,13 +102,7 @@ const app = {
         
     },
 
-    loadCurrentSong: function(){
-        nameSong.textContent = this.currentSong.name;
-        singer.textContent = this.currentSong.singer;
-        thumb_song.style.backgroundImage = `url(${this.currentSong.image})`;   
-        audio.src = this.currentSong.path;   
-    },
-
+    // Xu ly tat ca cac Event
     handleEvent: function(){
         const _this = this;
         // Xử lý Zoom in zoom out Header
@@ -111,27 +115,116 @@ const app = {
             cd.style.opacity = newWidth/cdWidth;
         }
 
-        // Play and Pause
+        //Xử lý quay CD 
+        const thumbSongRote = thumb_song.animate([
+            {transform: 'rotate(360deg)'}
+        ],{
+            duration: 10000,
+            iterations: Infinity,
+        })
+        thumbSongRote.pause();
 
+
+        // Auto play song
+        var autoPlaySong = function(){
+            _this.isPlaying = true;
+            music_box.classList.add('playing');
+            audio.play();
+        }
+
+        // Play and Pause
         btn_play_pause.onclick = function(){
             if(_this.isPlaying){
                 audio.pause();
             }else{              
                 audio.play()
-            }
            
+            }       
+            // Khi play 
             audio.onplay = function(){
                 _this.isPlaying = true;
                 music_box.classList.add('playing');
+                thumbSongRote.play();
             }
+            // Bat event Pause
             audio.onpause = function(){
                 _this.isPlaying = false;
                 music_box.classList.remove('playing');
-            }
+                thumbSongRote.pause();
+            }                    
         }
-    },
-  
 
+        // Bat event Update time cua Audio           
+        audio.ontimeupdate = function(){
+            const percentProgress = Math.floor(audio.currentTime / audio.duration * 100);
+            // console.log(percentProgress);
+            progress.value = percentProgress;
+        }
+       
+        //Change time khi tua
+        progress.onchange = function(e){
+            const timeSeeked = e.target.value * audio.duration / 100;
+            audio.currentTime = timeSeeked;
+         }
+
+         // Bat Event back song
+         btn_back_song.onclick = function(){
+             if(_this.isPlayRandom){
+                 _this.playRandomSong();
+                 autoPlaySong();
+             }else{
+                 _this.backSong();
+                 autoPlaySong();
+             }
+           
+            
+         }
+
+         // Bat Event next song
+         btn_next.onclick = function(){
+            _this.nextSong();
+            autoPlaySong();
+         }
+        
+         // On/Off Play Random Song
+         btn_random.onclick = function(){
+             _this.isPlayRandom = !_this.isPlayRandom;
+             btn_random.classList.toggle('color_red');
+         }
+    },
+    // Load bai hat 
+    loadCurrentSong: function(){
+        nameSong.textContent = this.currentSong.name;
+        singer.textContent = this.currentSong.singer;
+        thumb_song.style.backgroundImage = `url(${this.currentSong.image})`;   
+        audio.src = this.currentSong.path;   
+    },
+    // Next bai hat tiep theo
+    nextSong: function(){
+        this.currentIndex++;
+        if(this.currentIndex >= this.songs.length){
+            this.currentIndex = 0;
+        }
+        this.loadCurrentSong();
+    },
+    // Lui ve 1 bai
+    backSong: function(){
+        this.currentIndex--;
+        if(this.currentIndex < 0){
+            this.currentIndex = this.songs.length - 1;
+        }
+        this.loadCurrentSong();
+    },
+    // Random Index song
+    playRandomSong: function(){
+        let newIndex;
+        do{
+            newIndex = Math.floor(Math.random() * this.songs.length);
+        }while(newIndex === this.currentIndex)  
+        
+        this.currentIndex = newIndex;
+        this.loadCurrentSong();
+    },
     start: function(){
         // Định nghĩa các Properties
         this.defineProperties();
@@ -144,8 +237,7 @@ const app = {
 
         // Xử lý các DOM Event
         this.handleEvent();
-
-        // audio.play();
+     
     }
 
 }
