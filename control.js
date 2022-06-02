@@ -7,20 +7,26 @@ const singer = $('.name_music .singer');
 const thumb_song = $('.cd .music_thumb');
 const music_box = $('.music_box');
 const progress = $('.progress');
+const beatContainer = $('.beatContainer');
 
-// console.log(progress);
+// console.log(beatContainer);
 
 const btn_play_pause = $('.btn-play');
 const btn_back_song = $('.btn-back');
 const btn_next = $('.btn-next');
 const btn_random = $('.btn-random');
+const btn_repeat = $('.btn-repeat');
+const btn_volume = $('.btn-volume');
+const volume_progress = $('.volume_progress')
 
-// console.log(nameSong, singer, thumb_song,btn_play_pause)
+// console.log(volume_progress);
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
     isPlayRandom: false,
+    isRepeatSong: false,
+    isVolumeOff: false,
     songs: [
         {
             name:'Cơn mưa tháng 5',
@@ -33,6 +39,42 @@ const app = {
             singer:'Bức Tường',
             path:'./Assets/Music/Bong-Hong-Thuy-Tinh-Buc-Tuong.mp3',
             image:'./Assets/image/BongHongThuyTinh.jpg'
+        },
+        {
+            name:'Di ve yeu thuong',
+            singer: 'Phan Cuong OST',
+            path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
+            image:'./Assets/image/fan_cuong.jpg'
+        },
+        {
+            name:'Hanh Phuc Bat Dau',
+            singer: 'Phan Cuong OST',
+            path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
+            image:'./Assets/image/hanhphucbatdau.png'
+        },       
+        {
+            name:'Mot Nhanh Mai',
+            singer: 'Thai Hoa',
+            path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
+            image:'./Assets/image/motNhanhMai.jpg'
+        }
+        ,{
+            name:'Di ve yeu thuong',
+            singer: 'Phan Cuong OST',
+            path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
+            image:'./Assets/image/fan_cuong.jpg'
+        },
+        {
+            name:'Hanh Phuc Bat Dau',
+            singer: 'Phan Cuong OST',
+            path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
+            image:'./Assets/image/hanhphucbatdau.png'
+        },       
+        {
+            name:'Mot Nhanh Mai',
+            singer: 'Thai Hoa',
+            path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
+            image:'./Assets/image/motNhanhMai.jpg'
         },
         {
             name:'Di ve yeu thuong',
@@ -82,9 +124,9 @@ const app = {
 
     // render playlist
     render: function(){
-        var htmls = this.songs.map(function(song){
+        var htmls = this.songs.map(function(song,index){
             return `
-            <div class="song">
+            <div class="song ${index == app.currentIndex ? 'activeSong' : '' }">
                 <div class="image_song"
                     style=" background-image: url(${song.image}); background-size: cover;background-repeat: no-repeat;">
                 </div>
@@ -102,7 +144,7 @@ const app = {
         
     },
 
-    // Xu ly tat ca cac Event
+    //===== Xu ly tat ca cac Event======
     handleEvent: function(){
         const _this = this;
         // Xử lý Zoom in zoom out Header
@@ -113,6 +155,12 @@ const app = {
             const newWidth = cdWidth - scrollTop;
             cd.style.width = newWidth > 0 ? newWidth + 'px' : 0;
             cd.style.opacity = newWidth/cdWidth;
+             //Xu ly khi scroll CD
+         if(cd.offsetWidth == 0){
+            beatContainer.classList.add('beat-active');
+         }else{
+            beatContainer.classList.remove('beat-active');
+         }
         }
 
         //Xử lý quay CD 
@@ -165,24 +213,27 @@ const app = {
         progress.onchange = function(e){
             const timeSeeked = e.target.value * audio.duration / 100;
             audio.currentTime = timeSeeked;
+            autoPlaySong();
          }
 
          // Bat Event back song
          btn_back_song.onclick = function(){
-             if(_this.isPlayRandom){
-                 _this.playRandomSong();
-                 autoPlaySong();
+             if(_this.isPlayRandom ){
+                 _this.playRandomSong();                        
              }else{
-                 _this.backSong();
-                 autoPlaySong();
+                 _this.backSong();                
              }
-           
+             autoPlaySong();
             
          }
 
-         // Bat Event next song
+         // Bat Event next Song
          btn_next.onclick = function(){
-            _this.nextSong();
+            if(_this.isPlayRandom ){
+                _this.playRandomSong();              
+            }else{
+                 _this.nextSong();               
+            }
             autoPlaySong();
          }
         
@@ -191,15 +242,64 @@ const app = {
              _this.isPlayRandom = !_this.isPlayRandom;
              btn_random.classList.toggle('color_red');
          }
+        //Next khi het bai 
+        audio.onended = function(){
+            if(_this.isRepeatSong){
+                audio.play();
+            }else{
+                btn_next.click();                
+            }
+        }
+         // On//Off repeat Song
+         btn_repeat.onclick = function(){
+            _this.isRepeatSong = !_this.isRepeatSong;
+            btn_repeat.classList.toggle('color_red');
+            if(_this.isPlayRandom){
+            _this.isPlayRandom = !_this.isPlayRandom;
+            btn_random.classList.toggle('color_red');
+            }
+         }
+         
+
+         //Test render lai khi load data 1 bai nao do
+         audio.onloadeddata = function(){
+            _this.render();
+            _this.scrollToActiveSong();
+         }
+
+
+         //Xử lý event Volume On/Off
+         btn_volume.onclick = function(){
+             btn_volume.classList.toggle('volumeBtn');
+             _this.isVolumeOff = ! _this.isVolumeOff;
+             if(_this.isVolumeOff){
+                 audio.volume = 0;
+             }else{
+                 const valueVolumeCurrent = volume_progress.value;
+                 audio.volume = valueVolumeCurrent;
+             }
+         }
+         // Xu ly volume range
+        //  + Set volume cho audio theo gia tri default tren range
+         const volumeDefaut = volume_progress.value;
+         audio.volume = volumeDefaut;
+
+         volume_progress.oninput = function(e){
+             const valueRange = e.target.value;
+             audio.volume = valueRange;
+         }
+
+        
+
     },
-    // Load bai hat 
+    // ====Load bai hat =======
     loadCurrentSong: function(){
         nameSong.textContent = this.currentSong.name;
         singer.textContent = this.currentSong.singer;
         thumb_song.style.backgroundImage = `url(${this.currentSong.image})`;   
         audio.src = this.currentSong.path;   
     },
-    // Next bai hat tiep theo
+    //==== Next bai hat tiep theo======
     nextSong: function(){
         this.currentIndex++;
         if(this.currentIndex >= this.songs.length){
@@ -207,7 +307,7 @@ const app = {
         }
         this.loadCurrentSong();
     },
-    // Lui ve 1 bai
+    //===== Lui ve 1 bai=====
     backSong: function(){
         this.currentIndex--;
         if(this.currentIndex < 0){
@@ -215,7 +315,7 @@ const app = {
         }
         this.loadCurrentSong();
     },
-    // Random Index song
+    // =====Random Index song=====
     playRandomSong: function(){
         let newIndex;
         do{
@@ -225,6 +325,18 @@ const app = {
         this.currentIndex = newIndex;
         this.loadCurrentSong();
     },
+    // ==== Scroll den song dang active=== 
+    scrollToActiveSong: function(){
+        const songActive = $('.song.activeSong');
+        setTimeout(function(){
+            songActive.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',              
+            })
+        },500)
+    },
+
+    //======= Chay app ==========
     start: function(){
         // Định nghĩa các Properties
         this.defineProperties();

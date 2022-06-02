@@ -12,6 +12,109 @@ body{
      user-select: none;
 }
 
+.song.activeSong{
+    background-color: crimson;
+    animation-name: activeSong;
+    border: 2px solid blue;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+}
+.activeSong .info_song h1{
+    color: #fff;
+}
+.activeSong .info_song p{
+    color: #fff;
+}
+
+@keyframes activeSong{
+    0% {border: 2px solid green; transform: rotate(1deg);}
+    20% {border: 2px solid red; transform: rotate(-1deg);}
+    40% {border: 2px solid pink;transform: rotate(1deg);}
+    60% {border: 2px solid darkmagenta;transform: rotate(-1deg);}
+    80% {border: 2px solid whitesmoke;transform: rotate(1deg);}
+    100% {border: 2px solid orange;transform: rotate(-1deg);}
+
+}
+
+/* Xu ly Beat at header */
+.beatContainer{
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    width: 420px;
+    height: 100px;
+    line-height: 130px;
+    top: 0;
+    z-index: 11;
+    display: none;
+}
+.beat-active{
+    display: flex;
+}
+.beatContainer .beat{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    top: 50px;
+    height: 30px;
+    width: 30px;
+    background-clip: content-box;
+    animation-name: beat;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    /* background-color: red; */
+}
+
+.beat .beat-child{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 15px;
+    width: 15px;
+    margin: auto;
+    animation-name: beat;
+    animation-duration: 5s;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    /* background-color: yellow; */
+
+}
+.beat-child .beat-child-1{
+    height: 4px;
+    width: 4px;
+    margin: auto;
+    animation-name: beat;
+    animation-duration: 5s;
+    animation-delay: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    /* background-color: green; */
+
+}
+.beatContainer .beat:last-child{
+    right: 40px;
+}
+.beatContainer .beat:first-child{
+    left: 40px;
+}
+
+
+@keyframes beat{
+    0%{ background-color: aqua;transform: rotate(0deg) scale(1.1);}
+    20%{ background-color: red;transform: rotate(90deg) scale(1.2);}
+    40%{ background-color: pink;transform: rotate(180deg) scale(1.3);}
+    60%{ background-color: green;transform: rotate(270deg) scale(1.4);}
+    80%{ background-color: blueviolet;transform: rotate(360deg) scale(1.5);}
+    100%{ background-color: yellow;transform: rotate(450deg) scale(1.6);}
+
+}
+
+
+/* -----End beat----- */
 .color_red{
     color: red;
 }
@@ -34,6 +137,7 @@ body{
     position: fixed;
     top: 0;
     background-color: aliceblue;
+    z-index: 10;
 }
 /* Header */
 .music_box > .header{
@@ -78,6 +182,9 @@ body{
     justify-content: space-around;
     margin: 10px 0;
 }
+.progress{
+    margin-bottom: 5px;
+}
 .tool_bar >.item{
     width: 50px;
     height: 50px;
@@ -103,22 +210,58 @@ body{
 .playing .fa-play{
     display: none;
 }
+
+.btn-volume{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.btn-volume .volume_progress {
+    /* display: none; */
+}
+.btn-volume .fa-volume-xmark{
+    display: none;
+}
+.volumeBtn .fa-volume-xmark{
+    display: inline-block;
+}
+.volumeBtn .fa-volume-low{
+    display: none;
+}
+.volume_progress{
+    margin-left: -10px;
+    width: 50px;
+    /* transform: rotate(90deg); */
+}
+.volume_progress::-webkit-slider-thumb{
+-webkit-appearance: none;
+appearance: none;
+  width: 23px;
+  height: 24px;
+  border: 0;
+  background: url('demo.jpg');
+  cursor: pointer;
+}
+
 /* List */
 
 .list_music{
-    margin-top: 460px;
-    padding: 12px;
-    /* overflow: scroll; */
+    margin-top: 420px;
+    padding: 10px;
 }
 
 .song{
     display: flex;
     align-items: center;
     width: 400px;
-    padding: 10px;
+    margin: 10px;
+    padding: 5px;
     background-color: whitesmoke;
-    background-clip: content-box;
+    background-clip: border-box;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;  
 }
 .song:hover{
     opacity: 0.8;
