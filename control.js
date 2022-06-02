@@ -123,29 +123,43 @@ const app = {
     },
     // Load config khi load hoac Reset web
     loadConfig: function(){
-       
-        this.isPlayRandom = this.config.isPlayRandom;
-        this.isRepeatSong = this.config.isRepeatSong;
-        this.isVolumeOff = this.config.isVolumeOff;
-        this.currentIndex = this.config.songLaterIndex;
-        audio.currentTime = this.config.timeSongLate;
+        
+        
+       if(!Object.hasOwn(this.config,('isPlayRandom'))){
+        this.setConfig('isPlayRandom', false);
+       }else{
+        this.isPlayRandom = this.config.isPlayRandom
+       }   
+       btn_random.classList.toggle('color_red',this.isPlayRandom);
+        
 
-        btn_random.classList.toggle('color_red',this.isPlayRandom);
+       if(!Object.hasOwn(this.config,('isRepeatSong'))){
+        this.setConfig('isRepeatSong', false);
+       }else{
+        this.isRepeatSong = this.config.isRepeatSong
+       }
         btn_repeat.classList.toggle('color_red',this.isRepeatSong);
+
+        if(!Object.hasOwn(this.config,('isVolumeOff'))){
+            this.setConfig('isVolumeOff', false);
+        }else{
+            this.isVolumeOff = this.config.isVolumeOff
+        }
         btn_volume.classList.toggle('volumeBtn',this.isVolumeOff);
 
-        
-        if(this.isVolumeOff){
-            audio.volume = 0;
+        if(!Object.hasOwn(this.config,('timeSongLastTime'))){
+            this.setConfig('timeSongLastTime', 1);
         }else{
-            const valueVolumeCurrent = volume_progress.value;
-            audio.volume = valueVolumeCurrent;
+            audio.currentTime = this.config.timeSongLastTime
         }
 
+        if(!Object.hasOwn(this.config,('songLaterIndex')) || this.config.songLaterIndex === null){
+            this.setConfig('songLaterIndex', 0);
+        }else{
+            this.currentIndex = this.config.songLaterIndex
+        }
+       
         this.loadCurrentSong();
-
-        audio.currentTime = 20
-
     },
     // Dinh nghia properties
     defineProperties: function(){
@@ -243,7 +257,7 @@ const app = {
             // console.log(percentProgress);
             progress.value = percentProgress;
 
-            _this.setConfig('timeSongLate',audio.currentTime);
+            _this.setConfig('timeSongLastTime',Math.floor(audio.currentTime));
         }
        
         //Change time khi tua
@@ -260,6 +274,17 @@ const app = {
              }else{
                  _this.backSong();                
              }
+
+            //  if(_this.isRepeatSong){
+            //      const currentIndexSong = _this.currentIndex;
+            //      if(currentIndexSong == _this.songs.length - 1){
+            //          _this.currentIndex = 0;
+            //      }else{
+            //          _this.currentIndex = currentIndexSong + 1;
+            //      }
+            //      _this.loadCurrentSong();
+            //  }
+             
              autoPlaySong();
             
          }
@@ -299,9 +324,10 @@ const app = {
 
             if(_this.isPlayRandom){
 
-            _this.isPlayRandom = !_this.isPlayRandom;
+            _this.isPlayRandom = false;
+            _this.setConfig('isPlayRandom',false);
 
-            btn_random.classList.toggle('color_red');
+            btn_random.classList.toggle('color_red',_this.isPlayRandom);
             }
          }
 
