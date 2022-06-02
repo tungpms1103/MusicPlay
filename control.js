@@ -1,6 +1,8 @@
 var $ = document.querySelector.bind(document);
 var $$ = document.querySelectorAll.bind(document);
 
+const PLAYER_STORAGE_KEY = 'Son_Tung';
+
 const audio = $('#audio');
 const nameSong = $('.name_music .nameSong');
 const singer = $('.name_music .singer');
@@ -8,6 +10,7 @@ const thumb_song = $('.cd .music_thumb');
 const music_box = $('.music_box');
 const progress = $('.progress');
 const beatContainer = $('.beatContainer');
+const listMusic = $('.list_music');
 
 // console.log(beatContainer);
 
@@ -27,6 +30,7 @@ const app = {
     isPlayRandom: false,
     isRepeatSong: false,
     isVolumeOff: false,
+    config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
         {
             name:'Cơn mưa tháng 5',
@@ -113,6 +117,36 @@ const app = {
             image:'./Assets/image/motNhanhMai.jpg'
         }
     ],
+    setConfig: function(key,value){
+        this.config[key] = value;
+        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config));
+    },
+    // Load config khi load hoac Reset web
+    loadConfig: function(){
+       
+        this.isPlayRandom = this.config.isPlayRandom;
+        this.isRepeatSong = this.config.isRepeatSong;
+        this.isVolumeOff = this.config.isVolumeOff;
+        this.currentIndex = this.config.songLaterIndex;
+        audio.currentTime = this.config.timeSongLate;
+
+        btn_random.classList.toggle('color_red',this.isPlayRandom);
+        btn_repeat.classList.toggle('color_red',this.isRepeatSong);
+        btn_volume.classList.toggle('volumeBtn',this.isVolumeOff);
+
+        
+        if(this.isVolumeOff){
+            audio.volume = 0;
+        }else{
+            const valueVolumeCurrent = volume_progress.value;
+            audio.volume = valueVolumeCurrent;
+        }
+
+        this.loadCurrentSong();
+
+        audio.currentTime = 20
+
+    },
     // Dinh nghia properties
     defineProperties: function(){
         Object.defineProperty(app,'currentSong', {
@@ -126,7 +160,7 @@ const app = {
     render: function(){
         var htmls = this.songs.map(function(song,index){
             return `
-            <div class="song ${index == app.currentIndex ? 'activeSong' : '' }">
+            <div class="song ${index == app.currentIndex ? 'activeSong' : '' }" index-Song="${index}">
                 <div class="image_song"
                     style=" background-image: url(${song.image}); background-size: cover;background-repeat: no-repeat;">
                 </div>
@@ -138,7 +172,6 @@ const app = {
             `
         });
 
-        const listMusic = $('.list_music');
         listMusic.innerHTML = htmls.join('');
 
         
@@ -186,13 +219,15 @@ const app = {
                 audio.pause();
             }else{              
                 audio.play()
-           
             }       
             // Khi play 
             audio.onplay = function(){
                 _this.isPlaying = true;
                 music_box.classList.add('playing');
                 thumbSongRote.play();
+                if(_this.isVolumeOff){
+                    audio.volume = 0;
+                }
             }
             // Bat event Pause
             audio.onpause = function(){
@@ -207,6 +242,8 @@ const app = {
             const percentProgress = Math.floor(audio.currentTime / audio.duration * 100);
             // console.log(percentProgress);
             progress.value = percentProgress;
+
+            _this.setConfig('timeSongLate',audio.currentTime);
         }
        
         //Change time khi tua
@@ -234,15 +271,41 @@ const app = {
             }else{
                  _this.nextSong();               
             }
+
             autoPlaySong();
+
          }
         
          // On/Off Play Random Song
          btn_random.onclick = function(){
              _this.isPlayRandom = !_this.isPlayRandom;
-             btn_random.classList.toggle('color_red');
+
+            // isPlayRandom true thi them CLass color_red trả về false thì remove class
+             btn_random.classList.toggle('color_red',_this.isPlayRandom);
+
+           _this.setConfig('isPlayRandom',_this.isPlayRandom);
+
          }
-        //Next khi het bai 
+        
+         // On//Off repeat Song
+         btn_repeat.onclick = function(){
+            _this.isRepeatSong = !_this.isRepeatSong;
+
+            // isRepeatSong true thi them CLass color_red trả về false thì remove class
+            btn_repeat.classList.toggle('color_red',_this.isRepeatSong);
+
+            //set Config
+           _this.setConfig('isRepeatSong',_this.isRepeatSong);
+
+            if(_this.isPlayRandom){
+
+            _this.isPlayRandom = !_this.isPlayRandom;
+
+            btn_random.classList.toggle('color_red');
+            }
+         }
+
+         // Next khi het bai 
         audio.onended = function(){
             if(_this.isRepeatSong){
                 audio.play();
@@ -250,28 +313,26 @@ const app = {
                 btn_next.click();                
             }
         }
-         // On//Off repeat Song
-         btn_repeat.onclick = function(){
-            _this.isRepeatSong = !_this.isRepeatSong;
-            btn_repeat.classList.toggle('color_red');
-            if(_this.isPlayRandom){
-            _this.isPlayRandom = !_this.isPlayRandom;
-            btn_random.classList.toggle('color_red');
-            }
-         }
-         
 
-         //Test render lai khi load data 1 bai nao do
+         // Render lai khi load data 1 bai nao do
          audio.onloadeddata = function(){
             _this.render();
             _this.scrollToActiveSong();
+
+            _this.setConfig('songLaterIndex',_this.currentIndex);
          }
 
 
          //Xử lý event Volume On/Off
          btn_volume.onclick = function(){
-             btn_volume.classList.toggle('volumeBtn');
              _this.isVolumeOff = ! _this.isVolumeOff;
+             
+             // Trả về True thì add False thì Remove class
+             btn_volume.classList.toggle('volumeBtn',_this.isVolumeOff);
+
+            //set Config
+            _this.setConfig('isVolumeOff',_this.isVolumeOff);
+            
              if(_this.isVolumeOff){
                  audio.volume = 0;
              }else{
@@ -287,9 +348,25 @@ const app = {
          volume_progress.oninput = function(e){
              const valueRange = e.target.value;
              audio.volume = valueRange;
+             _this.isVolumeOff = false;
+             btn_volume.classList.remove('volumeBtn');
          }
 
-        
+        // Xu ly khi click Playlist
+
+        listMusic.onclick = function(e){
+        const songClicked =  e.target.closest('.song:not(.activeSong)')
+
+        if(songClicked){
+            const indexSong = songClicked.getAttribute('index-Song');
+
+            _this.currentIndex = indexSong;
+            _this.loadCurrentSong();
+            autoPlaySong();
+        }
+       
+            
+        }
 
     },
     // ====Load bai hat =======
@@ -344,11 +421,15 @@ const app = {
         // Render playlist
         this.render();
 
+        // Load config
+        this.loadConfig();
+
         //Tải bài hát đầu tiên lên UI khi chạy App
         this.loadCurrentSong();
 
         // Xử lý các DOM Event
         this.handleEvent();
+
      
     }
 
