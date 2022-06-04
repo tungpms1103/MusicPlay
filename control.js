@@ -39,83 +39,96 @@ const app = {
             image:'./Assets/image/CơnMuaThang5.jpg'
         },
         {
-            name:'Bong hong thuy tinh',
+            name:'Bông hồng thủy tinh',
             singer:'Bức Tường',
             path:'./Assets/Music/Bong-Hong-Thuy-Tinh-Buc-Tuong.mp3',
             image:'./Assets/image/BongHongThuyTinh.jpg'
         },
         {
-            name:'Di ve yeu thuong',
+            name:'Đi về yêu thương',
             singer: 'Phan Cuong OST',
             path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
             image:'./Assets/image/fan_cuong.jpg'
         },
         {
-            name:'Hanh Phuc Bat Dau',
+            name:'Hạnh phúc bắt đầu',
             singer: 'Phan Cuong OST',
             path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
             image:'./Assets/image/hanhphucbatdau.png'
         },       
         {
-            name:'Mot Nhanh Mai',
-            singer: 'Thai Hoa',
+            name:'Một nhành mai',
+            singer: 'Phan Cuong OST',
             path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
             image:'./Assets/image/motNhanhMai.jpg'
         }
         ,{
-            name:'Di ve yeu thuong',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
-            image:'./Assets/image/fan_cuong.jpg'
+            name:'Live Wave',
+            singer: 'Ngũ cung',
+            path:'./Assets/Music/Live-Wave-Ngu-Cung.mp3',
+            image:'./Assets/image/1397189773819_600.jpg'
         },
         {
-            name:'Hanh Phuc Bat Dau',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
-            image:'./Assets/image/hanhphucbatdau.png'
-        },       
-        {
-            name:'Mot Nhanh Mai',
-            singer: 'Thai Hoa',
-            path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
-            image:'./Assets/image/motNhanhMai.jpg'
+            name:'Vỡ tan (Break)',
+            singer: 'Bụi gió',
+            path:'./Assets/Music/Vo-Tan-Break-Bui-Gio.mp3',
+            image:'./Assets/image/1468828774209_600.jpg'
         },
         {
-            name:'Di ve yeu thuong',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
-            image:'./Assets/image/fan_cuong.jpg'
+            name:'Ký ức ở lại',
+            singer: '9th demension',
+            path:'./Assets/Music/Ki-Uc-O-Lai-Loved-9th-Dimension.mp3',
+            image:'./Assets/image/auniverseof1.jpg'
         },
         {
-            name:'Hanh Phuc Bat Dau',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
-            image:'./Assets/image/hanhphucbatdau.png'
-        },       
-        {
-            name:'Mot Nhanh Mai',
-            singer: 'Thai Hoa',
-            path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
-            image:'./Assets/image/motNhanhMai.jpg'
-        }
-        ,{
-            name:'Di ve yeu thuong',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Di-Ve-Yeu-Thuong-Fanatic-Band.mp3',
-            image:'./Assets/image/fan_cuong.jpg'
+            name:'Viết tình ca',
+            singer: 'Tạ quang thắng',
+            path:'./Assets/Music/Viet-Tinh-Ca-Ta-Quang-Thang.mp3',
+            image:'./Assets/image/ab67616d0000b2733b1c38085406488468fe226d.jpg'
         },
         {
-            name:'Hanh Phuc Bat Dau',
-            singer: 'Phan Cuong OST',
-            path:'./Assets/Music/Hanh-Phuc-Bat-Dau-Fanatic-Band.mp3',
-            image:'./Assets/image/hanhphucbatdau.png'
-        },       
+            name:'chỉ là giấc mơ',
+            singer: 'microWave',
+            path:'./Assets/Music/Chi-La-Giac-Mo-MicroWave.mp3',
+            image:'./Assets/image/chilagiacmo.jpg'
+        },
         {
-            name:'Mot Nhanh Mai',
-            singer: 'Thai Hoa',
-            path:'./Assets/Music/Mot-Nhanh-Mai-Fanatic-Band.mp3',
-            image:'./Assets/image/motNhanhMai.jpg'
-        }
+            name:'sẽ không yêu thêm ai',
+            singer: 'tạ quang thắng',
+            path:'./Assets/Music/SeKhongYeuThemAiCountryRockVersion-TaQuangThang-6102952.mp3',
+            image:'./Assets/image/1570000123776_640.jpg'
+        },
+        {
+            name:'mắt đen',
+            singer: 'bức tường',
+            path:'./Assets/Music/Mat-Den-Buc-Tuong.mp3',
+            image:'./Assets/image/maxresdefault.jpg'
+        },
+        {
+            name:'bài ca tuổi trẻ',
+            singer: 'JGKiD, Emceel, KraziNoyze, linh cáo',
+            path:'./Assets/Music/Bai-Ca-Tuoi-Tre-JGKiD-EmceeL-KraziNoyze-Linh-Cao.mp3',
+            image:'./Assets/image/1531124811438_640.jpg'
+        },
+        {
+            name:'magic in the air',
+            singer: 'magic system, chawki',
+            path:'./Assets/Music/Magic In The Air - Magic System_ Chawki.mp3',
+            image:'./Assets/image/magicintheair.jpg'
+        },
+        {
+            name:'the way i still love you',
+            singer: 'Reynard Silva',
+            path:'./Assets/Music/TheWayIStillLoveYou-ReynardSilva-6014974.mp3',
+            image:'./Assets/image/1562221403656_640.jpg'
+        },
+        {
+            name:'stereo hearts',
+            singer: 'gym class heroes, dam levine',
+            path:'./Assets/Music/Stereo-Hearts-Gym-Class-Heroes-Adam-Levine.mp3',
+            image:'./Assets/image/stereoheart.jpg'
+        },
+        
     ],
     setConfig: function(key,value){
         this.config[key] = value;

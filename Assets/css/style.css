@@ -147,9 +147,10 @@ body{
     margin: 0 auto;
     text-align: center;
 }
-.nameSong{
+.nameSong, .song{
     color: blueviolet;
     margin: 5px;
+    text-transform: capitalize;
 }
 .header > .name_music{
     margin: 15px;
