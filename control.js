@@ -238,12 +238,14 @@ const app = {
             _this.isPlaying = true;
             music_box.classList.add('playing');
             audio.play();
+            thumbSongRote.play();
         }
 
         // Play and Pause
         btn_play_pause.onclick = function(){
             if(_this.isPlaying){
                 audio.pause();
+
             }else{              
                 audio.play()
             }       
@@ -299,6 +301,7 @@ const app = {
             //  }
              
              autoPlaySong();
+             
             
          }
 
@@ -309,7 +312,6 @@ const app = {
             }else{
                  _this.nextSong();               
             }
-
             autoPlaySong();
 
          }
@@ -317,6 +319,14 @@ const app = {
          // On/Off Play Random Song
          btn_random.onclick = function(){
              _this.isPlayRandom = !_this.isPlayRandom;
+
+            if(_this.isRepeatSong){
+                _this.isRepeatSong = !_this.isRepeatSong;
+
+                btn_repeat.classList.toggle('color_red',_this.isRepeatSong);
+
+                _this.setConfig('isRepeatSong',_this.isRepeatSong);
+            }
 
             // isPlayRandom true thi them CLass color_red trả về false thì remove class
              btn_random.classList.toggle('color_red',_this.isPlayRandom);
